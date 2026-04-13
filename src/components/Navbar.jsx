@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 const navLinks = [
-  { label: 'Home', href: '#', active: true },
-  { label: 'Features', href: '#' },
-  { label: 'Free resources', href: '#' },
+  { label: 'Home', href: '#Home', active: true },
+  { label: 'Features', href: '#features' },
+  { label: 'Free resources', href: 'https://learnenglish.britishcouncil.org/free-resources/vocabulary' },
   { label: 'About', href: '#' },
 ]
 
@@ -38,9 +38,12 @@ export default function Navbar() {
 
         {/* CTA + Hamburger */}
         <div className="flex items-center space-x-4">
-          <button className="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full font-semibold active:scale-90 transition-transform hover:opacity-90">
+          <a
+            href="#features"
+            className="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full font-semibold active:scale-90 transition-transform hover:opacity-90"
+          >
             Get Started
-          </button>
+          </a>
           <button
             className="md:hidden p-2 rounded-lg text-on-surface hover:bg-surface-container-low transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}

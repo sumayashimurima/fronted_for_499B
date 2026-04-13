@@ -12,9 +12,12 @@ export default function FinalCTA() {
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-12 leading-relaxed">
             Join thousands of students who have already improved their band scores with our AI-Powered tutoring system.
           </p>
-          <button className="bg-white text-primary px-12 py-5 rounded-xl font-black text-xl hover:scale-105 transition-transform shadow-2xl">
+          <a
+            href="#features"
+            className="bg-white text-primary px-12 py-5 rounded-xl font-black text-xl hover:scale-105 transition-transform shadow-2xl inline-block"
+          >
             Start Now Free
-          </button>
+          </a>
           <p className="text-white/60 mt-6 text-sm">"start where you are,use what you have,do what you can"- Arthur Ashe.</p>
         </div>
       </div>

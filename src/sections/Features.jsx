@@ -2,7 +2,7 @@ const filledCheck = { fontVariationSettings: "'FILL' 1" }
 
 export default function Features() {
   return (
-    <section className="py-24 bg-surface-container-low">
+    <section id="features" className="py-24 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
