@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar'
 import Hero from '../sections/Hero'
 import Stats from '../sections/Stats'
+import PracticeModules from '../sections/PracticeModules'
 import Features from '../sections/Features'
 import HowItWorks from '../sections/HowItWorks'
 import AIEdge from '../sections/AIEdge'
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       {/* <Stats /> */}
+      <PracticeModules />
       <Features />
       <HowItWorks />
       <AIEdge />
