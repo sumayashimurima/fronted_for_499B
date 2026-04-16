@@ -15,9 +15,12 @@ export default function Navbar() {
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 h-20">
 
         {/* Logo */}
-        <div className="text-xl font-black tracking-tighter text-primary font-headline">
+        <div className="text-xl font-black tracking-tighter text-primary font-headline" >
           AGINTIC AI TUTOR
-        </div>
+
+          </div>
+          
+        
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-8">

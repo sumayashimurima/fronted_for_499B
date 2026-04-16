@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AGINTIC | AI IELTS Tutor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#5b403e",
+                    "inverse-surface": "#2f3131",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#00201f",
+                    "secondary": "#9f3f3b",
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#f9f9f9",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "surface-container-highest": "#e2e2e2",
+                    "tertiary-container": "#008280",
+                    "on-primary-fixed-variant": "#930013",
+                    "primary-fixed": "#ffdad7",
+                    "outline-variant": "#e4beba",
+                    "on-secondary-fixed-variant": "#802826",
+                    "outline": "#8f6f6d",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "surface-container-high": "#e8e8e8",
+                    "on-tertiary-container": "#f3fffd",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#eeeeee",
+                    "inverse-on-surface": "#f1f1f1",
+                    "secondary-container": "#ff8982",
+                    "on-secondary-fixed": "#410004",
+                    "primary": "#b61722",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#ffb3ad",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f3f3f3",
+                    "on-background": "#1a1c1c",
+                    "surface-dim": "#dadada",
+                    "on-secondary-container": "#762120",
+                    "surface": "#f9f9f9",
+                    "tertiary": "#006765",
+                    "on-primary-fixed": "#410004",
+                    "secondary-fixed": "#ffdad7",
+                    "background": "#f9f9f9",
+                    "primary-container": "#da3437",
+                    "surface-variant": "#e2e2e2",
+                    "surface-tint": "#b91a24",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "tertiary-fixed": "#87f4f0",
+                    "on-primary-container": "#fffbff",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1a1c1c",
+                    "secondary-fixed-dim": "#ffb3ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #1a1c1c; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .red-gradient { background: linear-gradient(135deg, #b61722 0%, #da3437 100%); }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); }
+        .academic-shadow { box-shadow: 0 40px 80px -20px rgba(26, 28, 28, 0.08); }
+    </style>
+</head>
+<body class="antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+<div class="text-2xl font-black text-neutral-900 dark:text-neutral-50 tracking-tighter">AGINTIC</div>
+<div class="hidden md:flex items-center space-gap-8 gap-x-8 Inter antialiased text-sm font-medium tracking-tight">
+<a class="text-red-700 dark:text-red-500 border-b-2 border-red-700 pb-1 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200" href="#">Home</a>
+<a class="text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200" href="#">Writing</a>
+<a class="text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200" href="#">Speaking</a>
+<a class="text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200" href="#">FAQ</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-neutral-600 text-sm font-medium hover:text-red-600 transition-colors px-4 py-2">Sign In</button>
+<button class="red-gradient text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-red-900/10 scale-95 active:duration-100 transition-transform">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="pt-32 pb-20 bg-surface">
+<div class="max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-xs font-bold mb-6 tracking-wider uppercase">AI-Powered Training</span>
+<h1 class="text-6xl md:text-7xl font-black text-on-surface leading-[1.05] tracking-tighter mb-8">
+                    Practice IELTS <span class="text-primary">Speaking</span> with AI
+                </h1>
+<p class="text-xl text-on-surface-variant leading-relaxed mb-10 max-w-lg">
+                    Take Part 1, Part 2, or Full Speaking tests in a realistic environment. Get instant band scores and detailed analytical feedback.
+                </p>
+<div class="flex items-center gap-4">
+<button class="red-gradient text-white px-8 py-4 rounded-3xl text-lg font-bold academic-shadow hover:scale-105 transition-transform flex items-center gap-2">
+                        Start Speaking
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="px-8 py-4 rounded-3xl text-lg font-bold text-on-surface hover:bg-surface-container transition-colors">
+                        View Demo
+                    </button>
+</div>
+</div>
+<div class="lg:col-span-6 relative">
+<div class="relative bg-surface-container-lowest rounded-3xl p-8 academic-shadow border border-white/50 overflow-hidden">
+<!-- UI Mockup Content -->
+<div class="flex justify-between items-center mb-12">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+<span class="font-bold text-sm tracking-tight text-on-surface">Candidate ID: #8291</span>
+</div>
+<div class="px-3 py-1 bg-tertiary/10 rounded-lg text-tertiary text-xs font-bold">LIVE SESSION</div>
+</div>
+<div class="text-center py-12">
+<div class="text-on-surface-variant text-sm mb-4">Current Question: Part 2</div>
+<h3 class="text-2xl font-bold mb-8">"Describe a book you recently read and found interesting."</h3>
+<!-- Waveform Placeholder -->
+<div class="flex items-center justify-center gap-1.5 h-16 mb-12">
+<div class="w-1.5 h-6 bg-primary/20 rounded-full"></div>
+<div class="w-1.5 h-10 bg-primary/40 rounded-full"></div>
+<div class="w-1.5 h-16 bg-primary rounded-full"></div>
+<div class="w-1.5 h-12 bg-primary rounded-full"></div>
+<div class="w-1.5 h-8 bg-primary/60 rounded-full"></div>
+<div class="w-1.5 h-14 bg-primary rounded-full"></div>
+<div class="w-1.5 h-6 bg-primary/20 rounded-full"></div>
+</div>
+<div class="flex justify-center">
+<div class="w-20 h-20 rounded-full red-gradient flex items-center justify-center text-white academic-shadow animate-pulse">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">mic</span>
+</div>
+</div>
+</div>
+<!-- Floating Card -->
+<div class="absolute top-1/4 -right-4 glass-panel p-4 rounded-2xl shadow-xl border border-white/40 max-w-[180px]">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Analysis</span>
+</div>
+<div class="text-xs text-on-surface leading-tight">"Fluency is improving. Avoid 'um' in next sentence."</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mode Selector -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-[1200px] mx-auto px-6 text-center">
+<h2 class="text-4xl font-black tracking-tight mb-4">Choose Your Practice Mode</h2>
+<p class="text-on-surface-variant mb-16">Target specific sections or simulate the full exam experience.</p>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Part 1 Active -->
+<div class="bg-surface-container-lowest p-8 rounded-3xl border-2 border-primary academic-shadow transition-all group">
+<div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center mb-6 mx-auto">
+<span class="material-symbols-outlined">chat_bubble</span>
+</div>
+<h4 class="text-xl font-bold mb-2">Part 1</h4>
+<p class="text-sm text-on-surface-variant mb-6">Introduction and general questions (4-5 mins).</p>
+<button class="w-full py-3 rounded-xl bg-primary text-white font-bold text-sm">Select Mode</button>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-outline-variant transition-all hover:bg-white">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high text-on-surface flex items-center justify-center mb-6 mx-auto">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<h4 class="text-xl font-bold mb-2">Part 2</h4>
+<p class="text-sm text-on-surface-variant mb-6">Individual long turn with cue card (3-4 mins).</p>
+<button class="w-full py-3 rounded-xl bg-surface-container-high text-on-surface font-bold text-sm">Select Mode</button>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-outline-variant transition-all hover:bg-white">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high text-on-surface flex items-center justify-center mb-6 mx-auto">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<h4 class="text-xl font-bold mb-2">Part 3</h4>
+<p class="text-sm text-on-surface-variant mb-6">Two-way analytical discussion (4-5 mins).</p>
+<button class="w-full py-3 rounded-xl bg-surface-container-high text-on-surface font-bold text-sm">Select Mode</button>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-outline-variant transition-all hover:bg-white">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high text-on-surface flex items-center justify-center mb-6 mx-auto">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<h4 class="text-xl font-bold mb-2">Full Test</h4>
+<p class="text-sm text-on-surface-variant mb-6">Complete simulation with band score (11-14 mins).</p>
+<button class="w-full py-3 rounded-xl bg-surface-container-high text-on-surface font-bold text-sm">Select Mode</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento -->
+<section class="py-24 bg-surface">
+<div class="max-w-[1200px] mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-xl">
+<h2 class="text-5xl font-black tracking-tighter mb-6 leading-tight">Master Speaking with Precision</h2>
+<p class="text-lg text-on-surface-variant">Our AI is trained on thousands of official IELTS examiner criteria to give you the most accurate feedback available.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="bg-surface-container-lowest p-8 rounded-3xl academic-shadow hover:-translate-y-2 transition-transform">
+<div class="text-primary mb-6"><span class="material-symbols-outlined text-4xl">history_edu</span></div>
+<h4 class="text-lg font-bold mb-3 tracking-tight">Real IELTS questions</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Updated weekly with actual questions from recent tests around the globe.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl academic-shadow hover:-translate-y-2 transition-transform">
+<div class="text-primary mb-6"><span class="material-symbols-outlined text-4xl">analytics</span></div>
+<h4 class="text-lg font-bold mb-3 tracking-tight">AI analysis</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Get detailed breakdowns of pronunciation, lexical resource, and grammar.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl academic-shadow hover:-translate-y-2 transition-transform">
+<div class="text-primary mb-6"><span class="material-symbols-outlined text-4xl">update</span></div>
+<h4 class="text-lg font-bold mb-3 tracking-tight">Practice anytime</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">No need to schedule. Your AI tutor is available 24/7 for unlimited rounds.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl academic-shadow hover:-translate-y-2 transition-transform">
+<div class="text-primary mb-6"><span class="material-symbols-outlined text-4xl">fact_check</span></div>
+<h4 class="text-lg font-bold mb-3 tracking-tight">Instant results</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Don't wait days for feedback. See your estimated band score within 30 seconds.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="py-24 bg-surface-container-low relative overflow-hidden">
+<div class="max-w-[1200px] mx-auto px-6 relative z-10">
+<div class="text-center mb-20">
+<h2 class="text-4xl font-black tracking-tight">How It Works</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+<!-- Connector Line (Desktop) -->
+<div class="hidden md:block absolute top-16 left-0 w-full h-[2px] bg-outline-variant/30 -z-10"></div>
+<div class="flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-3xl bg-surface-container-lowest text-primary flex items-center justify-center academic-shadow mb-8 relative">
+<span class="material-symbols-outlined text-3xl">list_alt</span>
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full red-gradient text-white flex items-center justify-center text-xs font-black">1</div>
+</div>
+<h4 class="text-xl font-bold mb-4">Choose part</h4>
+<p class="text-on-surface-variant text-sm">Select the specific part of the speaking test you want to focus on or go full exam.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-3xl bg-surface-container-lowest text-primary flex items-center justify-center academic-shadow mb-8 relative">
+<span class="material-symbols-outlined text-3xl">mic</span>
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full red-gradient text-white flex items-center justify-center text-xs font-black">2</div>
+</div>
+<h4 class="text-xl font-bold mb-4">Answer via mic</h4>
+<p class="text-on-surface-variant text-sm">Listen to the AI's prompts and record your answers. It's just like the real interview.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-3xl bg-surface-container-lowest text-primary flex items-center justify-center academic-shadow mb-8 relative">
+<span class="material-symbols-outlined text-3xl">emoji_events</span>
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full red-gradient text-white flex items-center justify-center text-xs font-black">3</div>
+</div>
+<h4 class="text-xl font-bold mb-4">Get band score</h4>
+<p class="text-on-surface-variant text-sm">Review your performance with an estimated band score and AI-powered advice.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Preview -->
+<section class="py-24 bg-surface">
+<div class="max-w-[1200px] mx-auto px-6">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="order-2 lg:order-1 space-y-8">
+<div class="bg-surface-container-lowest p-10 rounded-3xl academic-shadow">
+<div class="flex items-center justify-between mb-8">
+<h4 class="font-bold text-lg">Performance Score</h4>
+<div class="text-4xl font-black text-primary">7.5</div>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs font-bold uppercase mb-2">
+<span>Fluency &amp; Coherence</span>
+<span>8.0</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[80%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold uppercase mb-2">
+<span>Pronunciation</span>
+<span>7.0</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold uppercase mb-2">
+<span>Grammar</span>
+<span>7.5</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-tertiary-container/10 p-8 rounded-3xl border border-tertiary-container/20">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined">tips_and_updates</span>
+</div>
+<div>
+<h5 class="font-bold mb-2">AI Suggestion</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                    "Try to use more complex subordinating conjunctions like 'notwithstanding' or 'whereas' to boost your grammatical range score."
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<h2 class="text-5xl font-black tracking-tight mb-8 leading-tight">Actionable Insights</h2>
+<p class="text-lg text-on-surface-variant mb-10">We don't just give you a number. We provide a surgical breakdown of where you're losing points and how to fix it before test day.</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 font-medium">
+<span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span>
+                            Detailed transcription of your speech
+                        </li>
+<li class="flex items-center gap-3 font-medium">
+<span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span>
+                            Highlighting of filler words (um, uh, like)
+                        </li>
+<li class="flex items-center gap-3 font-medium">
+<span class="material-symbols-outlined text-primary" data-weight="fill">check_circle</span>
+                            Vocabulary replacement suggestions
+                        </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24">
+<div class="max-w-[1200px] mx-auto px-6">
+<div class="red-gradient rounded-3xl px-12 py-20 text-center text-white academic-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+<h2 class="text-5xl font-black tracking-tight mb-8 relative z-10">Start Practicing Your Speaking Today</h2>
+<p class="text-xl text-white/80 mb-12 max-w-2xl mx-auto relative z-10">Join 10,000+ students who improved their IELTS Speaking band by 1.5 points on average using our AI platform.</p>
+<button class="bg-white text-primary px-10 py-5 rounded-2xl text-lg font-black academic-shadow hover:scale-105 active:scale-95 transition-all relative z-10">
+                    Get Started For Free
+                </button>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-[800px] mx-auto px-6">
+<h2 class="text-4xl font-black tracking-tight text-center mb-16">Frequently Asked Questions</h2>
+<div class="space-y-6">
+<div class="bg-surface-container-lowest rounded-2xl p-6 academic-shadow">
+<div class="flex justify-between items-center cursor-pointer group">
+<h4 class="font-bold text-lg">Can I practice on mobile?</h4>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
+</div>
+<div class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Yes! AGINTIC is fully optimized for mobile browsers. You can practice your speaking skills on the go using your smartphone's built-in microphone.
+                    </div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-6 academic-shadow">
+<div class="flex justify-between items-center cursor-pointer group">
+<h4 class="font-bold text-lg">How accurate is the AI Band Score?</h4>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
+</div>
+<div class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Our scoring engine has a 94% correlation with certified IELTS examiners. It uses the official 4-pillar criteria: Fluency &amp; Coherence, Lexical Resource, Grammatical Range, and Pronunciation.
+                    </div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-6 academic-shadow">
+<div class="flex justify-between items-center cursor-pointer group">
+<h4 class="font-bold text-lg">Is there a free trial?</h4>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
+</div>
+<div class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Absolutely. Every new account gets 3 full practice sessions for free to experience the depth of our AI feedback.
+                    </div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-6 academic-shadow">
+<div class="flex justify-between items-center cursor-pointer group">
+<h4 class="font-bold text-lg">Does it cover all parts of the test?</h4>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
+</div>
+<div class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Yes, you can choose to practice Part 1, Part 2, Part 3 individually, or take a Full Mock Test that simulates the entire 14-minute interview process.
+                    </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full rounded-t-[24px] bg-white dark:bg-neutral-950">
+<div class="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-4">
+<div class="text-xl font-black text-neutral-900 dark:text-neutral-50">AGINTIC</div>
+<p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-xs">
+                    Empowering students worldwide to master the English language through surgical AI analysis and deliberate practice.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-sm font-bold text-red-700 dark:text-red-500 uppercase tracking-widest">Resources</h5>
+<nav class="flex flex-col gap-3">
+<a class="text-neutral-500 dark:text-neutral-400 text-sm hover:underline decoration-red-500 underline-offset-4" href="#">Success Stories</a>
+<a class="text-neutral-500 dark:text-neutral-400 text-sm hover:underline decoration-red-500 underline-offset-4" href="#">IELTS Speaking Tips</a>
+<a class="text-neutral-500 dark:text-neutral-400 text-sm hover:underline decoration-red-500 underline-offset-4" href="#">Privacy Policy</a>
+<a class="text-neutral-500 dark:text-neutral-400 text-sm hover:underline decoration-red-500 underline-offset-4" href="#">Terms of Service</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-sm font-bold text-red-700 dark:text-red-500 uppercase tracking-widest">Support</h5>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm">Need help with your preparation?</p>
+<a class="text-red-700 font-bold hover:underline decoration-red-500 underline-offset-4" href="mailto:support@agintic.ai">Contact Support</a>
+<div class="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
+                    © 2024 AGINTIC AI TUTOR. All rights reserved.
+                </div>
+</div>
+</div>
+</footer>
+</body></html>

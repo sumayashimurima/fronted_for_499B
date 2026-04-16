@@ -10,7 +10,7 @@ export default function Hero() {
         <div className="md:w-1/2 text-left space-y-8">
           {/* Badge */}
           <div className="inline-flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-            <span className="text-primary-fixed text-sm font-semibold uppercase tracking-widest">
+            <span className="text-amber-50 text-sm font-semibold uppercase tracking-widest">
               New: AI Speaking 2.0
             </span>
           </div>

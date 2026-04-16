@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom'
+
 const filledCheck = { fontVariationSettings: "'FILL' 1" }
 
 export default function Features() {
+  const navigate = useNavigate()
+
   return (
     <section id="features" className="py-24 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-6">
@@ -51,7 +55,10 @@ export default function Features() {
               </li>
             </ul>
 
-            <button className="w-full py-4 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">
+            <button
+              onClick={() => navigate('/writing-module')}
+              className="w-full py-4 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all"
+            >
               Try Writing Module
             </button>
           </div>
@@ -89,7 +96,10 @@ export default function Features() {
               </li>
             </ul>
 
-            <button className="w-full py-4 border-2 border-tertiary text-tertiary font-bold rounded-xl hover:bg-tertiary hover:text-white transition-all">
+            <button
+              onClick={() => navigate('/speaking-module')}
+              className="w-full py-4 border-2 border-tertiary text-tertiary font-bold rounded-xl hover:bg-tertiary hover:text-white transition-all"
+            >
               Try Speaking Module
             </button>
           </div>
