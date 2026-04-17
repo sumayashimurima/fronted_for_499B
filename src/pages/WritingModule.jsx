@@ -26,8 +26,9 @@ export default function WritingModule() {
             <div className="space-y-8">
               {/* Badge */}
               <div className="inline-flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-                <span className="text-amber-100 text-sm font-semibold uppercase tracking-widest" />
+                <span className="text-amber-50 text-sm font-semibold uppercase tracking-widest">
                 Task 2 Only · Instant Band Score
+                </span>
               </div>
 
               <h1 className="text-5xl md:text-7xl font-extrabold text-white font-headline leading-[1.1] tracking-tight">

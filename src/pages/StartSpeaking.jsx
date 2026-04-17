@@ -12,7 +12,7 @@ export default function StartSpeaking() {
     { icon: 'filter_2',    label: 'Part 2',  index: 1, path: null },
     { icon: 'filter_3',    label: 'Part 3',  index: 2, path: null },
     { icon: 'history',     label: 'Progress', index: 3, path: '/speaking-history' },
-    { icon: 'home', label: 'Home',   index: 5, path: null },
+    { icon: 'home', label: 'Home',   index: 5, path: '/' },
     { icon: 'help_outline', label: 'Help',   index: 4, path: null },
     
   ]

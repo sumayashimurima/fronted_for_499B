@@ -37,7 +37,7 @@ export default function StartWriting() {
           {NAV_ITEMS.map(({ id, icon, label }) => (
             <button
               key={id}
-              onClick={() => setActiveNav(id)}
+              onClick={() => id === 'home' ? navigate('/') : setActiveNav(id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm ${
                 activeNav === id
                   ? 'text-on-surface font-semibold border-r-4 border-primary bg-surface-container'

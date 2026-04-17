@@ -5,6 +5,8 @@ import StartWriting from './pages/StartWriting'
 import SpeakingModule from './pages/SpeakingModule'
 import StartSpeaking from './pages/StartSpeaking'
 import SpeakingHistory from './pages/SpeakingHistory'
+import AboutUs from './pages/AboutUs'
+import Auth from './pages/Auth'
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/speaking-module" element={<SpeakingModule />} />
         <Route path="/start-speaking" element={<StartSpeaking />} />
         <Route path="/speaking-history" element={<SpeakingHistory />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/auth" element={<Auth />} />
       </Routes>
     </BrowserRouter>
   )
