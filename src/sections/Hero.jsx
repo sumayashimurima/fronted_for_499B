@@ -31,7 +31,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <a
               href="#features"
-              className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-colors shadow-lg"
+              className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:shadow-[0px_8px_24px_rgba(175,16,26,0.30)] active:scale-95 transition-alltransition-colors shadow-lg"
             >
               Start Free Now
             </a>

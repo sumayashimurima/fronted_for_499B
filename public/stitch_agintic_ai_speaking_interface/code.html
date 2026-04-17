@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AGINTIC AI TUTOR - IELTS Speaking Test</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#802826",
+                    "on-primary-fixed": "#410004",
+                    "primary-container": "#da3437",
+                    "on-primary-fixed-variant": "#930013",
+                    "inverse-primary": "#ffb3ad",
+                    "outline": "#8f6f6d",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "outline-variant": "#e4beba",
+                    "surface": "#f9f9f9",
+                    "secondary-fixed": "#ffdad7",
+                    "error": "#ba1a1a",
+                    "secondary": "#9f3f3b",
+                    "surface-bright": "#f9f9f9",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#ffdad7",
+                    "surface-variant": "#e2e2e2",
+                    "on-secondary-container": "#762120",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#410004",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "on-background": "#1a1c1c",
+                    "tertiary-container": "#008280",
+                    "surface-container-high": "#e8e8e8",
+                    "surface-dim": "#dadada",
+                    "on-surface": "#1a1c1c",
+                    "inverse-on-surface": "#f1f1f1",
+                    "surface-tint": "#b91a24",
+                    "secondary-fixed-dim": "#ffb3ad",
+                    "surface-container": "#eeeeee",
+                    "primary": "#b61722",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "on-primary-container": "#fffbff",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#ff8982",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#00201f",
+                    "surface-container-highest": "#e2e2e2",
+                    "surface-container-low": "#f3f3f3",
+                    "background": "#f9f9f9",
+                    "on-tertiary-container": "#f3fffd",
+                    "on-surface-variant": "#5b403e",
+                    "inverse-surface": "#2f3131",
+                    "tertiary": "#006765",
+                    "tertiary-fixed": "#87f4f0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .mic-active {
+            box-shadow: 0 0 0 0 rgba(182, 23, 34, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(182, 23, 34, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(182, 23, 34, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(182, 23, 34, 0); }
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- Top Navigation Anchor -->
+<header class="bg-white dark:bg-[#1a1c1c] text-[#b61722] font-inter tracking-tight flex justify-between items-center w-full px-8 h-16 fixed top-0 z-50">
+<div class="text-xl font-bold tracking-tighter text-[#1a1c1c] dark:text-white">AGINTIC AI TUTOR</div>
+<div class="flex items-center gap-6">
+<span class="text-[#5b403e] hover:opacity-80 transition-opacity cursor-pointer">Explore</span>
+<span class="text-[#b61722] font-semibold hover:opacity-80 transition-opacity cursor-pointer">Test</span>
+<span class="material-symbols-outlined text-[#5b403e] scale-95 duration-200 cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<div class="flex h-screen pt-16">
+<!-- LEFT: SideNavBar -->
+<aside class="bg-[#f3f3f3] dark:bg-[#1a1c1c] h-screen w-64 fixed left-0 top-16 flex flex-col py-6">
+<div class="px-6 mb-8">
+<div class="text-lg font-black text-[#b61722] mb-1">IELTS Prep</div>
+<div class="text-xs font-medium text-[#5b403e] uppercase tracking-widest">Speaking Module</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Part 1 is ACTIVE -->
+<div class="flex items-center gap-3 border-l-4 border-[#b61722] bg-white dark:bg-[#2a2c2c] text-[#1a1c1c] dark:text-white px-4 py-3 transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-[#b61722]" data-icon="filter_1">filter_1</span>
+<span class="text-sm font-medium Inter">Part 1</span>
+</div>
+<div class="flex items-center gap-3 text-[#5b403e] dark:text-gray-400 px-4 py-3 hover:bg-[#ebebeb] dark:hover:bg-[#333535] transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="filter_2">filter_2</span>
+<span class="text-sm font-medium Inter">Part 2</span>
+</div>
+<div class="flex items-center gap-3 text-[#5b403e] dark:text-gray-400 px-4 py-3 hover:bg-[#ebebeb] dark:hover:bg-[#333535] transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="filter_3">filter_3</span>
+<span class="text-sm font-medium Inter">Part 3</span>
+</div>
+<div class="flex items-center gap-3 text-[#5b403e] dark:text-gray-400 px-4 py-3 hover:bg-[#ebebeb] dark:hover:bg-[#333535] transition-colors duration-200 cursor-pointer mt-auto">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-sm font-medium Inter">History</span>
+</div>
+<div class="flex items-center gap-3 text-[#5b403e] dark:text-gray-400 px-4 py-3 hover:bg-[#ebebeb] dark:hover:bg-[#333535] transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="text-sm font-medium Inter">Help</span>
+</div>
+</nav>
+</aside>
+<!-- CENTER: Main Content Canvas -->
+<main class="ml-64 mr-80 flex-1 p-8 overflow-y-auto bg-background">
+<div class="max-w-3xl mx-auto space-y-8">
+<!-- Question Area Card -->
+<div class="bg-surface-container-lowest rounded-xl p-12 text-center shadow-[0_10px_30px_rgba(26,28,28,0.06)] flex flex-col items-center justify-center min-h-[320px]">
+<span class="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-4">Part 1 Question</span>
+<h1 class="text-[2.75rem] leading-tight font-bold text-on-surface tracking-tight mb-6">Do you enjoy reading books?</h1>
+<p class="text-on-surface-variant text-lg">Answer naturally and clearly.</p>
+</div>
+<!-- Mic UI & Waveform Section -->
+<div class="flex flex-col items-center gap-8 py-8">
+<div class="flex items-end gap-1 h-12">
+<div class="w-1 bg-primary rounded-full h-4"></div>
+<div class="w-1 bg-primary rounded-full h-8"></div>
+<div class="w-1 bg-primary rounded-full h-5"></div>
+<div class="w-1 bg-primary rounded-full h-10"></div>
+<div class="w-1 bg-primary rounded-full h-3"></div>
+<div class="w-1 bg-primary rounded-full h-6"></div>
+<div class="w-1 bg-primary rounded-full h-12"></div>
+<div class="w-1 bg-primary rounded-full h-7"></div>
+<div class="w-1 bg-primary rounded-full h-9"></div>
+<div class="w-1 bg-primary rounded-full h-4"></div>
+<div class="w-1 bg-primary-fixed-dim rounded-full h-2"></div>
+<div class="w-1 bg-primary-fixed-dim rounded-full h-2"></div>
+<div class="w-1 bg-primary-fixed-dim rounded-full h-2"></div>
+</div>
+<div class="relative group">
+<button class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white mic-active transition-transform active:scale-90 duration-200 z-10 relative">
+<span class="material-symbols-outlined text-4xl" data-icon="mic" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-primary font-bold text-sm">Recording...</span>
+<span class="text-on-surface-variant text-xs mt-1">Tap to pause recording</span>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="flex items-center justify-center gap-4">
+<button class="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center gap-2 group">
+                        Next Question
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="px-8 py-3 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
+                        Finish Test
+                    </button>
+</div>
+</div>
+</main>
+<!-- RIGHT: Timer & Metrics Panel -->
+<aside class="w-80 fixed right-0 top-16 h-screen bg-surface-container-low p-6 space-y-6">
+<!-- Timer Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_10px_30px_rgba(26,28,28,0.04)] backdrop-blur-xl bg-white/80">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Time Remaining</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="schedule">schedule</span>
+</div>
+<div class="text-5xl font-black tracking-tighter text-on-surface">01:30</div>
+<!-- Progress Pills -->
+<div class="mt-8 flex gap-1">
+<div class="h-1.5 flex-1 bg-primary rounded-full"></div>
+<div class="h-1.5 flex-1 bg-surface-container-highest rounded-full"></div>
+<div class="h-1.5 flex-1 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="flex justify-between mt-2">
+<span class="text-[10px] font-bold text-primary">Part 1</span>
+<span class="text-[10px] font-bold text-on-surface-variant">Part 2</span>
+<span class="text-[10px] font-bold text-on-surface-variant">Part 3</span>
+</div>
+</div>
+<!-- Performance Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_10px_30px_rgba(26,28,28,0.04)] border border-outline-variant/10">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Est. Performance</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="insights">insights</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black text-on-surface">6.5</span>
+<span class="text-sm font-medium text-on-surface-variant">Current Pace</span>
+</div>
+<div class="mt-4 p-3 bg-tertiary/5 rounded-lg border border-tertiary/10">
+<p class="text-[11px] leading-relaxed text-on-surface-variant">
+<span class="font-bold text-tertiary">Pro-tip:</span> Your fluency is good, but try to use more complex vocabulary in this section.
+                    </p>
+</div>
+</div>
+<!-- Image/Moodboard Placeholder -->
+<div class="rounded-xl overflow-hidden relative group">
+<img alt="Reading books" class="w-full h-48 object-cover grayscale opacity-20 group-hover:opacity-40 transition-opacity duration-700" data-alt="Close-up of an open book with soft daylight hitting the pages in a minimalist library setting, serene academic mood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP9PFs40mlXlEFOGd1M3N_oxnJKiX3KvnVgp_A0mETh_QRo9H0OdYOGR5gGXIopY4mPfJOM1CUblGc-4X2alkjERqIWM9jpTisHTmo5qyey_MOnC_Dm1CDoLlW7GUREWq8TpN7067YU-JBOr8RpLOEC4VkGVU2nehA-cOBQH7c_RZVeE8gD1Y_1uyXAIKGKTFFPtO06IofNah8QX1Dv_KmLHOp7VqYO3frzKbKqDj85frilOBM2lVcv2C-8ORz8oqt-vnsb2Ta5k1n"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+</div>
+</aside>
+</div>
+<!-- Mobile Bottom Navigation (Hidden on MD+) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-3xl bg-white/80 dark:bg-[#1a1c1c]/80 backdrop-blur-xl border-t border-[#f3f3f3] dark:border-gray-800 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex justify-around items-center px-4 pt-2 pb-safe">
+<div class="flex flex-col items-center justify-center text-[#b61722] bg-[#b61722]/10 rounded-xl p-2 tap-highlight-none transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="mic" style="font-variation-settings: 'FILL' 1;">mic</span>
+<span class="text-[10px] font-bold uppercase mt-1">Test</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#5b403e] p-2 tap-highlight-none transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[10px] font-bold uppercase mt-1">History</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#5b403e] p-2 tap-highlight-none transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-bold uppercase mt-1">Profile</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#5b403e] p-2 tap-highlight-none transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-[10px] font-bold uppercase mt-1">Help</span>
+</div>
+</nav>
+</body></html>

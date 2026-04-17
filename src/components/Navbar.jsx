@@ -15,10 +15,17 @@ export default function Navbar() {
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 h-20">
 
         {/* Logo */}
-        <div className="text-xl font-black tracking-tighter text-primary font-headline" >
+        {/* <div onClick={() => navigate('/speaking-module')}
+        className="text-xl font-black tracking-tighter text-primary font-headline" >
           AGINTIC AI TUTOR
 
-          </div>
+          </div> */}
+          <button
+          onClick={() => navigate('/Home')}
+          className="text-xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity"
+        >
+          AGINTIC AI TUTOR
+        </button>
           
         
 
@@ -43,7 +50,7 @@ export default function Navbar() {
         <div className="flex items-center space-x-4">
           <a
             href="#features"
-            className="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full font-semibold active:scale-90 transition-transform hover:opacity-90"
+            className="bg-linear-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full font-semibold active:scale-90 transition-transform hover:opacity-90"
           >
             Get Started
           </a>

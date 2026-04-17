@@ -43,7 +43,7 @@ export default function WritingModule() {
               <div className="flex flex-wrap gap-4 pt-2">
                 <button
                   onClick={() => navigate('/start-writing')}
-                  className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-colors shadow-lg"
+                  className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:shadow-[0px_8px_24px_rgba(175,16,26,0.30)] active:scale-95 transition-alltransition-colors shadow-lg"
                 >
                   Start Writing
                 </button>
@@ -313,7 +313,7 @@ export default function WritingModule() {
                   IELTS writing tutor today.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                  <button onClick={() => navigate('/start-writing')}className="bg-white text-primary font-black px-10 py-5 rounded-full hover:scale-105 transition-transform shadow-2xl">
+                  <button onClick={() => navigate('/start-writing')}className="bg-white text-primary font-black px-10 py-5 rounded-full hover:shadow-[0px_8px_24px_rgba(175,16,26,0.30)] active:scale-95 transition-alltransition-transform shadow-2xl">
                     Get Started Now
                   </button>
                   <button

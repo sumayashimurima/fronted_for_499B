@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { id: 'criteria',  icon: 'analytics',  label: 'Criteria' },
   { id: 'history',   icon: 'history',    label: 'History'  },
   { id: 'settings',  icon: 'settings',   label: 'Settings' },
+  { id: 'home',  icon: 'home',   label: 'Home' },
 ]
 
 const CRITERIA = [
@@ -32,7 +33,7 @@ export default function StartWriting() {
           <p className="text-xs text-secondary mt-0.5">Next Test: Oct 24</p>
         </div>
 
-        <nav className="flex-grow space-y-1">
+        <nav className="grow space-y-1">
           {NAV_ITEMS.map(({ id, icon, label }) => (
             <button
               key={id}
@@ -99,10 +100,10 @@ export default function StartWriting() {
               {/* Prompt Card */}
               <section className="bg-surface-container-low rounded-xl p-8 relative overflow-hidden">
                 <div className="flex justify-between items-start mb-6">
-                  <span className="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  <span className="hero-gradient text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                     Prompt
                   </span>
-                  <button className="flex items-center gap-2 text-primary font-bold hover:opacity-70 transition-all text-sm">
+                  <button className="flex items-center gap-2 shadow-[0px_12px_32px_rgba(25,28,29,0.05)] border-2-4 border-primary text-primary font-bold hover:opacity-70 transition-all text-sm hover:shadow-[0px_8px_24px_rgba(175,16,26,0.30)] active:scale-95 transition-all">
                     <span className="material-symbols-outlined text-[18px]">refresh</span>
                     New Question
                   </button>
@@ -167,7 +168,7 @@ export default function StartWriting() {
                       <span className="block text-xs text-secondary mb-0.5">Word Count</span>
                       <span className="text-xl font-bold tracking-tight text-on-surface">
                         {wordCount}{' '}
-                        <span className="text-sm font-normal text-secondary">/ 250 min</span>
+                        <span className="text-sm font-normal text-secondary">/ 250 words</span>
                       </span>
                     </div>
                     <button className="flex items-center gap-3 bg-linear-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-bold text-base shadow-lg hover:shadow-[0px_8px_24px_rgba(175,16,26,0.30)] active:scale-95 transition-all">
@@ -209,7 +210,7 @@ export default function StartWriting() {
 
                 {/* Overall Band Score — dark card */}
                 <div
-                  className="rounded-xl p-8 flex items-center justify-between overflow-hidden relative"
+                  className="rounded-xl p-8 flex items-center justify-between overflow-hidden relative hero-gradient"
                   style={{ backgroundColor: 'var(--color-on-surface)', color: 'var(--color-surface)' }}
                 >
                   <div className="relative z-10">
@@ -257,19 +258,6 @@ export default function StartWriting() {
           </div>
         </div>
       </main>
-
-      {/* ── Floating AI Button (FAB) ── */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <button className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group overflow-hidden relative"
-          style={{ backgroundColor: 'var(--color-on-surface)', color: 'var(--color-surface-container-lowest)' }}
-        >
-          <span className="material-symbols-outlined text-2xl relative z-10">smart_toy</span>
-          <div
-            className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-            style={{ backgroundColor: 'var(--color-primary)' }}
-          />
-        </button>
-      </div>
 
     </div>
   )

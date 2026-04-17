@@ -90,11 +90,11 @@ export default function SpeakingModule() {
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               <button
-                onClick={() => navigate('/speaking-module')}
-                className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-colors shadow-lg"
+                onClick={() => navigate('/start-speaking')}
+                className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:shadow-[0px_8px_24px_rgba(175,16,26,0.30)] active:scale-95 transition-alltransition-colors shadow-lg"
               >
                 Start Speaking
-                <span className="material-symbols-outlined">arrow_forward</span>
+
               </button>
               <button className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-colors">
                 View Demo
@@ -105,12 +105,12 @@ export default function SpeakingModule() {
           {/* Right UI mockup */}
           <div className="lg:col-span-6 relative">
             <div
-              className="relative bg-surface-container-lowest rounded-3xl p-8 overflow-hidden"
+              className="relative bg-surface-container-lowest rounded-3xl p-6 overflow-hidden"
               style={{ boxShadow: '0 40px 80px -20px rgba(26,28,28,0.08)' }}
             >
               <div className="flex justify-between items-center mb-12">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+                  <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
                     <span className="material-symbols-outlined">account_circle</span>
                   </div>
                   <span className="font-bold text-sm tracking-tight text-on-surface">Candidate ID: #8291</span>
@@ -120,13 +120,13 @@ export default function SpeakingModule() {
                 </div>
               </div>
 
-              <div className="text-center py-12">
+              <div className="text-center py-6">
                 <div className="text-on-surface-variant text-sm mb-4">Current Question: Part 2</div>
                 <h3 className="text-2xl font-bold mb-8">
                   "Describe a book you recently read and found interesting."
                 </h3>
                 {/* Waveform */}
-                <div className="flex items-center justify-center gap-1.5 h-16 mb-12">
+                <div className="flex items-center justify-center gap-1 h-12 mb-10">
                   {[6, 10, 16, 12, 8, 14, 6].map((h, i) => (
                     <div
                       key={i}
@@ -138,7 +138,7 @@ export default function SpeakingModule() {
                 {/* Mic button */}
                 <div className="flex justify-center">
                   <div
-                    className="w-20 h-20 rounded-full bg-linear-to-br from-primary to-primary-container flex items-center justify-center text-white animate-pulse"
+                    className="w-18 h-18 rounded-full bg-linear-to-br from-primary to-primary-container flex items-center justify-center text-white animate-pulse"
                     style={{ boxShadow: '0 40px 80px -20px rgba(26,28,28,0.08)' }}
                   >
                     <span
