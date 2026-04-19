@@ -4,7 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 // Internal links use `to` (React Router), external links keep `href`
 const navLinks = [
   { label: 'Home',           to: '/' },
-  { label: 'Features',       href: '#features' },
+  { 
+    label: 'Features',
+    children: [
+      { label: 'Writing', to: '/writing' },
+      { label: 'Speaking', to: '/speaking' }
+    ]
+  },
   { label: 'Free resources', href: 'https://learnenglish.britishcouncil.org/free-resources/vocabulary' },
   { label: 'About Us',       to: '/about-us' },
 ]

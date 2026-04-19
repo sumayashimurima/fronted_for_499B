@@ -1,6 +1,7 @@
 const DB_NAME = 'agintic_recordings'
 const STORE = 'recordings'
-const DB_VERSION = 1
+const WRITING_STORE = 'writing_sessions'
+const DB_VERSION = 2
 
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -9,6 +10,9 @@ function openDB() {
       const db = e.target.result
       if (!db.objectStoreNames.contains(STORE)) {
         db.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true })
+      }
+      if (!db.objectStoreNames.contains(WRITING_STORE)) {
+        db.createObjectStore(WRITING_STORE, { keyPath: 'id', autoIncrement: true })
       }
     }
     req.onsuccess = () => resolve(req.result)
@@ -51,6 +55,36 @@ export async function deleteAllRecordings() {
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE, 'readwrite')
     const req = tx.objectStore(STORE).clear()
+    req.onsuccess = () => resolve()
+    tx.onerror = () => reject(tx.error)
+  })
+}
+
+export async function saveWritingSession(data) {
+  const db = await openDB()
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(WRITING_STORE, 'readwrite')
+    const req = tx.objectStore(WRITING_STORE).add(data)
+    req.onsuccess = () => resolve(req.result)
+    tx.onerror = () => reject(tx.error)
+  })
+}
+
+export async function getAllWritingSessions() {
+  const db = await openDB()
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(WRITING_STORE, 'readonly')
+    const req = tx.objectStore(WRITING_STORE).getAll()
+    req.onsuccess = () => resolve([...req.result].reverse())
+    tx.onerror = () => reject(tx.error)
+  })
+}
+
+export async function deleteWritingSession(id) {
+  const db = await openDB()
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(WRITING_STORE, 'readwrite')
+    const req = tx.objectStore(WRITING_STORE).delete(id)
     req.onsuccess = () => resolve()
     tx.onerror = () => reject(tx.error)
   })
