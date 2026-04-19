@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 
 const navItems = [
-  { icon: 'filter_1', label: 'Part 1',  path: '/start-speaking' },
-  { icon: 'filter_2', label: 'Part 2',  path: '/start-speaking' },
-  { icon: 'filter_3', label: 'Part 3',  path: '/start-speaking' },
-  { icon: 'history',  label: 'Progress', path: '/speaking-history', active: true },
-  { icon: 'home', label: 'Home',    path: null },
-  { icon: 'help_outline', label: 'Help', path: null },
+  { icon: 'filter_1',     label: 'Part 1',     path: '/start-speaking' },
+  { icon: 'filter_2',     label: 'Part 2',     path: '/start-speaking' },
+  { icon: 'filter_3',     label: 'Part 3',     path: '/start-speaking' },
+  { icon: 'history',      label: 'Progress',   path: '/speaking-history', active: true },
+  { icon: 'mic',          label: 'Recordings', path: '/speaking-recordings' },
+  { icon: 'home',         label: 'Home',       path: null },
+  { icon: 'help_outline', label: 'Help',       path: null },
 ]
 
 const scoreCards = [
@@ -104,7 +105,7 @@ export default function SpeakingHistory() {
 
             <div className="relative flex flex-col items-center">
               {/* Score circle */}
-              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full border-[12px] border-surface-container flex items-center justify-center relative">
+              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full border-12 border-surface-container flex items-center justify-center relative">
                 <svg className="absolute inset-0 w-full h-full -rotate-90" aria-hidden="true">
                   <circle
                     cx="50%"
@@ -196,7 +197,7 @@ export default function SpeakingHistory() {
             >
               Retake Test
             </button>
-            <button className="w-full sm:w-auto px-10 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all active:scale-95 text-lg">
+            <button onClick={() => navigate('/speaking-recordings')} className="w-full sm:w-auto px-10 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all active:scale-95 text-lg">
               View History
             </button>
           </div>
