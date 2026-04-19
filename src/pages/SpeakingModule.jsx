@@ -396,7 +396,7 @@ export default function SpeakingModule() {
               Join 10,000+ students who improved their IELTS Speaking band by 1.5 points on average
               using our AI platform.
             </p>
-            <button className="bg-white text-primary px-10 py-5 rounded-2xl text-lg font-black hover:scale-105 active:scale-95 transition-all relative z-10 shadow-lg">
+            <button onClick={() => navigate('/start-speaking')} className="bg-white text-primary px-10 py-5 rounded-2xl text-lg font-black hover:scale-105 active:scale-95 transition-all relative z-10 shadow-lg">
               Get Started For Free
             </button>
           </div>

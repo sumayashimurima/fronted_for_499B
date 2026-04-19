@@ -76,6 +76,7 @@ export default function StartSpeaking() {
   const [micPermission, setMicPermission] = useState('idle') // 'idle' | 'requesting' | 'granted' | 'denied'
   const [liveWaveHeights, setLiveWaveHeights] = useState(waveHeights)
   const [showTimeOver, setShowTimeOver] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
 
   const intervalRef = useRef(null)
   const activePartRef = useRef(activePart)
@@ -96,15 +97,53 @@ export default function StartSpeaking() {
   useEffect(() => { isRecordingRef.current = isRecording }, [isRecording])
   useEffect(() => { isPausedRef.current = isPaused }, [isPaused])
 
-  // Cleanup mic on unmount
+  // Cleanup mic + TTS on unmount
   useEffect(() => {
     return () => {
       cancelAnimationFrame(animationFrameRef.current)
       mediaRecorderRef.current?.stop()
       streamRef.current?.getTracks().forEach((t) => t.stop())
       audioCtxRef.current?.close()
+      window.speechSynthesis?.cancel()
     }
   }, [])
+
+  const getQuestionText = (q) => {
+    if (!q) return ''
+    if (typeof q === 'string') return q
+    return `${q.topic}. You should say: ${q.bullets.join('. ')}. ${q.closing}`
+  }
+
+  const speakQuestion = (text) => {
+    if (!window.speechSynthesis || !text) return
+    window.speechSynthesis.cancel()
+    const utter = new SpeechSynthesisUtterance(text)
+    const trySpeak = () => {
+      const voices = window.speechSynthesis.getVoices()
+      const male = voices.find(v => /david|james|daniel|mark|male/i.test(v.name))
+        || voices.find(v => v.lang === 'en-US' || v.lang === 'en-GB')
+        || voices[0]
+      if (male) utter.voice = male
+      utter.pitch = 0.82
+      utter.rate = 0.92
+      utter.lang = 'en-US'
+      utter.onstart = () => setIsSpeaking(true)
+      utter.onend = () => setIsSpeaking(false)
+      utter.onerror = () => setIsSpeaking(false)
+      window.speechSynthesis.speak(utter)
+    }
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.onvoiceschanged = () => { trySpeak(); window.speechSynthesis.onvoiceschanged = null }
+    } else {
+      trySpeak()
+    }
+  }
+
+  // Auto-speak when question changes
+  useEffect(() => {
+    const q = partQuestions[activePart][currentQuestionIndex]
+    speakQuestion(getQuestionText(q))
+  }, [currentQuestionIndex, activePart])
 
   const questions = partQuestions[activePart] ?? partQuestions[0]
   const totalQuestions = questions.length
@@ -293,6 +332,21 @@ export default function StartSpeaking() {
           70%  { transform: scale(1);    box-shadow: 0 0 0 20px rgba(182, 23, 34, 0); }
           100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(182, 23, 34, 0); }
         }
+        @keyframes avatar-talk {
+          0%   { transform: translateY(0px) rotate(-1deg) scale(1); }
+          20%  { transform: translateY(-5px) rotate(1.5deg) scale(1.04); }
+          45%  { transform: translateY(-3px) rotate(-1deg) scale(1.02); }
+          70%  { transform: translateY(-6px) rotate(1deg) scale(1.05); }
+          100% { transform: translateY(0px) rotate(-1deg) scale(1); }
+        }
+        @keyframes ripple-out {
+          0%   { transform: scale(0.85); opacity: 0.6; }
+          100% { transform: scale(2.2);  opacity: 0; }
+        }
+        .avatar-talking { animation: avatar-talk 0.55s ease-in-out infinite; }
+        .ripple-1 { animation: ripple-out 1.4s ease-out infinite; }
+        .ripple-2 { animation: ripple-out 1.4s ease-out 0.45s infinite; }
+        .ripple-3 { animation: ripple-out 1.4s ease-out 0.9s infinite; }
       `}</style>
 
       {/* ── Top Navbar ── */}
@@ -345,45 +399,73 @@ export default function StartSpeaking() {
 
             {/* Question Card */}
             <div
-              className="bg-surface-container-lowest rounded-xl p-10 flex flex-col min-h-80"
+              className="bg-surface-container-lowest rounded-xl p-8 flex flex-col"
               style={{ boxShadow: '0 10px 30px rgba(26,28,28,0.06)' }}
             >
-              {/* Header row */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <span className="text-primary font-bold text-xs uppercase tracking-[0.2em]">
-                    Part {activePart + 1} Question
-                  </span>
-                  <span className="text-on-surface-variant text-xs font-medium bg-surface-container px-2 py-0.5 rounded-full">
-                    {currentQuestionIndex + 1} / {totalQuestions}
-                  </span>
-                </div>
-                {/* Per-question countdown */}
-                <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
-                  isRecording && questionSecondsLeft <= 5
-                    ? 'bg-primary/10 text-primary'
-                    : 'bg-surface-container text-on-surface-variant'
-                }`}>
-                  <span className="material-symbols-outlined text-sm">timer</span>
-                  {formatTime(questionSecondsLeft)}
-                </div>
+              {/* Header row — no countdown */}
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-primary font-bold text-xs uppercase tracking-[0.2em]">
+                  Part {activePart + 1} Question
+                </span>
+                <span className="text-on-surface-variant text-xs font-medium bg-surface-container px-2 py-0.5 rounded-full">
+                  {currentQuestionIndex + 1} / {totalQuestions}
+                </span>
               </div>
 
+              {/* Avatar section */}
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <div className="relative flex items-center justify-center w-44 h-44">
+                  {/* Ripple rings — only when speaking */}
+                  {isSpeaking && (
+                    <>
+                      <div className="ripple-1 absolute inset-0 rounded-full border-2 border-primary/40" />
+                      <div className="ripple-2 absolute inset-0 rounded-full border-2 border-primary/25" />
+                      <div className="ripple-3 absolute inset-0 rounded-full border border-primary/15" />
+                    </>
+                  )}
+                  {/* Avatar button — click to replay speech */}
+                  <button
+                    onClick={() => speakQuestion(getQuestionText(currentQuestion))}
+                    title="Click to hear the question again"
+                    className={`relative w-40 h-40 rounded-2xl overflow-hidden select-none transition-all duration-200 bg-white ${
+                      isSpeaking ? 'avatar-talking' : 'hover:scale-105 active:scale-95'
+                    }`}
+                    style={{
+                      boxShadow: isSpeaking
+                        ? '0 0 0 5px rgba(182,23,34,0.12), 0 8px 28px rgba(182,23,34,0.18)'
+                        : '0 4px 20px rgba(26,28,28,0.10)',
+                    }}
+                  >
+                    <img
+                      src="/design/avastar.png"
+                      alt="AI Examiner"
+                      className="w-full h-full object-cover object-top"
+                      draggable={false}
+                    />
+                  </button>
+                </div>
+                {/* Speaking indicator label */}
+                <span className={`text-xs font-semibold transition-colors ${isSpeaking ? 'text-primary' : 'text-on-surface-variant'}`}>
+                  {isSpeaking ? 'Speaking…' : 'Tap to replay'}
+                </span>
+              </div>
+
+              {/* Question text below avatar */}
               {typeof currentQuestion === 'string' ? (
                 /* Part 1 & 3 — plain question */
-                <div className="flex-1 flex flex-col items-center justify-center text-center">
-                  <h1 className="text-[2.2rem] leading-tight font-bold text-on-surface tracking-tight mb-4">
+                <div className="text-center space-y-2">
+                  <h1 className="text-[1.9rem] leading-tight font-bold text-on-surface tracking-tight">
                     {currentQuestion}
                   </h1>
-                  <p className="text-on-surface-variant">Answer naturally and clearly.</p>
+                  <p className="text-on-surface-variant text-sm">Answer naturally and clearly.</p>
                 </div>
               ) : (
                 /* Part 2 — Candidate Task Card */
-                <div className="flex-1 space-y-4">
+                <div className="space-y-4 border-t border-surface-container pt-5">
                   <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">
                     Candidate Task Card
                   </p>
-                  <h1 className="text-2xl font-bold text-on-surface leading-snug">
+                  <h1 className="text-xl font-bold text-on-surface leading-snug">
                     {currentQuestion.topic}
                   </h1>
                   <div>
