@@ -20,7 +20,7 @@ export default function WritingModule() {
           {/* ambient blob */}
           {/* <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" /> */}
 
-          <div className="max-w-7xl mx-auto lg:px-12 grid lg:grid-cols-2 gap-12 items-center relative z-10 py-24">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 items-center relative z-10 py-24">
 
             {/* Left – copy */}
             <div className="space-y-8">

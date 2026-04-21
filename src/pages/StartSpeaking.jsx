@@ -1,6 +1,32 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveRecording } from '../db'
+import { SimliClient, generateSimliSessionToken, generateIceServers } from 'simli-client'
+
+const SIMLI_API_KEY = 'cno9pzp8h1qhhymf1p2x0m'
+const SIMLI_FACE_ID = 'dd10cb5a-d31d-4f12-b69f-6db3383c006e'
+
+// Generate voice-rhythm PCM16 audio at 16 kHz for Simli lip-sync.
+// Muted on playback — browser TTS handles the actual voice.
+const generateSpeechPCM = (text) => {
+  const SR = 16000
+  const words = text.trim().split(/\s+/).length
+  const dur = Math.max(1.5, (words / 150) * 60 * 1.15) // 150 WPM + 15% buffer
+  const n = Math.floor(dur * SR)
+  const buf = new Int16Array(n)
+  for (let i = 0; i < n; i++) {
+    const t = i / SR
+    const f0 = 140 + 18 * Math.sin(2 * Math.PI * 0.65 * t) // gentle pitch variation
+    const syllEnv = Math.max(0, Math.sin(Math.PI * 4.2 * t)) ** 0.5 // ~4 syllables/sec
+    const breathEnv = 0.55 + 0.45 * Math.sin(2 * Math.PI * 0.35 * t)
+    const wave =
+      Math.sin(2 * Math.PI * f0 * t) * 0.60 +
+      Math.sin(2 * Math.PI * 2 * f0 * t) * 0.28 +
+      Math.sin(2 * Math.PI * 3 * f0 * t) * 0.12
+    buf[i] = Math.round(syllEnv * breathEnv * wave * 10500)
+  }
+  return new Uint8Array(buf.buffer)
+}
 
 const waveHeights = [16, 32, 20, 40, 12, 24, 48, 28, 36, 16, 8, 8, 8]
 
@@ -65,6 +91,7 @@ const partQuestions = [
   ],
 ]
 
+
 export default function StartSpeaking() {
   const navigate = useNavigate()
   const [activePart, setActivePart] = useState(0)
@@ -77,6 +104,10 @@ export default function StartSpeaking() {
   const [liveWaveHeights, setLiveWaveHeights] = useState(waveHeights)
   const [showTimeOver, setShowTimeOver] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
+
+  const [simliConnected, setSimliConnected] = useState(false)
+  const [simliLoading, setSimliLoading] = useState(true)
+  const [simliError, setSimliError] = useState(null)
 
   const intervalRef = useRef(null)
   const activePartRef = useRef(activePart)
@@ -91,13 +122,17 @@ export default function StartSpeaking() {
   const segmentMetaRef = useRef(null)
   const pendingNextMetaRef = useRef(null)
   const segmentStartRef = useRef(null)
+  const simliVideoRef = useRef(null)
+  const simliAudioRef = useRef(null)
+  const simliClientRef = useRef(null)
+  const startSimliRef = useRef(null)
 
   useEffect(() => { activePartRef.current = activePart }, [activePart])
   useEffect(() => { qIndexRef.current = currentQuestionIndex }, [currentQuestionIndex])
   useEffect(() => { isRecordingRef.current = isRecording }, [isRecording])
   useEffect(() => { isPausedRef.current = isPaused }, [isPaused])
 
-  // Cleanup mic + TTS on unmount
+  // Cleanup mic + TTS + Simli on unmount
   useEffect(() => {
     return () => {
       cancelAnimationFrame(animationFrameRef.current)
@@ -105,7 +140,76 @@ export default function StartSpeaking() {
       streamRef.current?.getTracks().forEach((t) => t.stop())
       audioCtxRef.current?.close()
       window.speechSynthesis?.cancel()
+      simliClientRef.current?.stop()
     }
+  }, [])
+
+  // Initialise Simli avatar — stored in ref so retry button can re-call it
+  useEffect(() => {
+    const startSimli = async () => {
+      if (!simliVideoRef.current || !simliAudioRef.current) return
+      // Stop any previous client
+      try { simliClientRef.current?.stop() } catch {}
+      simliClientRef.current = null
+      setSimliConnected(false)
+      setSimliLoading(true)
+      setSimliError(null)
+
+      try {
+        // Step 1 — get session token
+        const tokenRes = await generateSimliSessionToken({
+          config: {
+            faceId: SIMLI_FACE_ID,
+            handleSilence: true,
+            maxSessionLength: 3600,
+            maxIdleTime: 300,
+            model: 'fasttalk',
+          },
+          apiKey: SIMLI_API_KEY,
+        })
+        const { session_token } = tokenRes
+
+        // Step 2 — get ICE servers (falls back to Google STUN on error)
+        const iceServers = await generateIceServers(SIMLI_API_KEY)
+
+        // Step 3 — create client (p2p default; auto-falls back to livekit after 2 retries)
+        const client = new SimliClient(
+          session_token,
+          simliVideoRef.current,
+          simliAudioRef.current,
+          iceServers,
+          2, // LogLevel.ERROR
+        )
+
+        client.on('start', () => {
+          setSimliConnected(true)
+          setSimliLoading(false)
+          setSimliError(null)
+          simliVideoRef.current?.play().catch(() => {})
+        })
+        client.on('stop', () => setSimliConnected(false))
+        client.on('error', (msg) => {
+          console.error('[Simli] error:', msg)
+          setSimliLoading(false)
+          setSimliError(String(msg))
+        })
+        client.on('startup_error', (msg) => {
+          console.error('[Simli] startup_error:', msg)
+          setSimliLoading(false)
+          setSimliError(String(msg))
+        })
+
+        simliClientRef.current = client
+        await client.start()
+      } catch (err) {
+        console.error('[Simli] init failed:', err)
+        setSimliLoading(false)
+        setSimliError(String(err))
+      }
+    }
+
+    startSimliRef.current = startSimli
+    startSimli()
   }, [])
 
   const getQuestionText = (q) => {
@@ -115,7 +219,18 @@ export default function StartSpeaking() {
   }
 
   const speakQuestion = (text) => {
-    if (!window.speechSynthesis || !text) return
+    if (!text) return
+
+    // Send lip-sync audio to Simli (muted playback — browser TTS carries the voice)
+    const client = simliClientRef.current
+    if (client) {
+      try {
+        client.ClearBuffer()
+        client.sendAudioData(generateSpeechPCM(text))
+      } catch {}
+    }
+
+    if (!window.speechSynthesis) return
     window.speechSynthesis.cancel()
     const utter = new SpeechSynthesisUtterance(text)
     const trySpeak = () => {
@@ -332,25 +447,28 @@ export default function StartSpeaking() {
           70%  { transform: scale(1);    box-shadow: 0 0 0 20px rgba(182, 23, 34, 0); }
           100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(182, 23, 34, 0); }
         }
-        @keyframes avatar-talk {
-          0%   { transform: translateY(0px) rotate(-1deg) scale(1); }
-          20%  { transform: translateY(-5px) rotate(1.5deg) scale(1.04); }
-          45%  { transform: translateY(-3px) rotate(-1deg) scale(1.02); }
-          70%  { transform: translateY(-6px) rotate(1deg) scale(1.05); }
-          100% { transform: translateY(0px) rotate(-1deg) scale(1); }
+        @keyframes avatar-bar {
+          0%,100% { transform: scaleY(0.4); }
+          50%      { transform: scaleY(1);   }
         }
-        @keyframes ripple-out {
-          0%   { transform: scale(0.85); opacity: 0.6; }
-          100% { transform: scale(2.2);  opacity: 0; }
+        .avatar-ring {
+          box-shadow: 0 0 0 3px rgba(175,16,26,0.18), 0 8px 28px rgba(26,28,28,0.13);
         }
-        .avatar-talking { animation: avatar-talk 0.55s ease-in-out infinite; }
-        .ripple-1 { animation: ripple-out 1.4s ease-out infinite; }
-        .ripple-2 { animation: ripple-out 1.4s ease-out 0.45s infinite; }
-        .ripple-3 { animation: ripple-out 1.4s ease-out 0.9s infinite; }
+        .avatar-ring-speaking {
+          box-shadow: 0 0 0 3px rgba(175,16,26,0.55), 0 8px 28px rgba(175,16,26,0.22);
+          animation: ring-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes ring-pulse {
+          0%,100% { box-shadow: 0 0 0 3px rgba(175,16,26,0.55), 0 8px 28px rgba(175,16,26,0.22); }
+          50%      { box-shadow: 0 0 0 7px rgba(175,16,26,0.18), 0 8px 32px rgba(175,16,26,0.30); }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
       `}</style>
 
       {/* ── Top Navbar ── */}
-      <header className="bg-surface-container-lowest text-primary font-body tracking-tight flex justify-between items-center w-full px-8 h-16 fixed top-0 z-50"
+      <header className="bg-surface-container-lowest text-primary font-body tracking-tight flex justify-between items-center w-full px-4 sm:px-8 h-16 fixed top-0 z-50"
         style={{ boxShadow: '0 1px 0 rgba(26,28,28,0.06)' }}>
         <button
           onClick={() => navigate('/speaking-module')}
@@ -394,12 +512,12 @@ export default function StartSpeaking() {
         </aside>
 
         {/* ── Center Main Content ── */}
-        <main className="md:ml-64 md:mr-80 flex-1 p-8 overflow-y-auto bg-surface">
+        <main className="md:ml-64 md:mr-80 flex-1 p-4 sm:p-8 overflow-y-auto bg-surface pb-24 md:pb-8">
           <div className="max-w-3xl mx-auto space-y-8">
 
             {/* Question Card */}
             <div
-              className="bg-surface-container-lowest rounded-xl p-8 flex flex-col"
+              className="bg-surface-container-lowest rounded-xl p-4 sm:p-8 flex flex-col"
               style={{ boxShadow: '0 10px 30px rgba(26,28,28,0.06)' }}
             >
               {/* Header row — no countdown */}
@@ -412,49 +530,96 @@ export default function StartSpeaking() {
                 </span>
               </div>
 
-              {/* Avatar section */}
-              <div className="flex flex-col items-center gap-3 mb-6">
-                <div className="relative flex items-center justify-center w-44 h-44">
-                  {/* Ripple rings — only when speaking */}
-                  {isSpeaking && (
-                    <>
-                      <div className="ripple-1 absolute inset-0 rounded-full border-2 border-primary/40" />
-                      <div className="ripple-2 absolute inset-0 rounded-full border-2 border-primary/25" />
-                      <div className="ripple-3 absolute inset-0 rounded-full border border-primary/15" />
-                    </>
+              {/* ── Simli Real-Time Avatar ── */}
+              <div className="flex flex-col items-center mb-6">
+                <div
+                  className={`relative rounded-full overflow-hidden bg-surface-container transition-all duration-300 ${
+                    isSpeaking && simliConnected ? 'avatar-ring-speaking' : 'avatar-ring'
+                  }`}
+                  style={{ width: '148px', height: '148px' }}
+                >
+                  <video
+                    ref={simliVideoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="w-full h-full object-cover"
+                    onLoadedMetadata={(e) => e.target.play().catch(() => {})}
+                  />
+                  {/* Audio routed back from Simli — muted so oscillator noise is silent */}
+                  <audio ref={simliAudioRef} autoPlay muted />
+
+                  {/* Overlay while connecting / offline */}
+                  {!simliConnected && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-surface-container">
+                      {simliLoading ? (
+                        <div
+                          className="w-7 h-7 rounded-full border-2 border-t-transparent"
+                          style={{
+                            borderColor: 'rgba(175,16,26,0.25)',
+                            borderTopColor: '#af101a',
+                            animation: 'spin 0.9s linear infinite',
+                          }}
+                        />
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined text-on-surface-variant text-3xl">face</span>
+                          <button
+                            onClick={() => startSimliRef.current?.()}
+                            className="flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold text-white active:scale-95 transition-all"
+                            style={{ background: '#af101a' }}
+                          >
+                            <span className="material-symbols-outlined text-sm">refresh</span>
+                            Retry
+                          </button>
+                        </>
+                      )}
+                    </div>
                   )}
-                  {/* Avatar button — click to replay speech */}
-                  <button
-                    onClick={() => speakQuestion(getQuestionText(currentQuestion))}
-                    title="Click to hear the question again"
-                    className={`relative w-40 h-40 rounded-2xl overflow-hidden select-none transition-all duration-200 bg-white ${
-                      isSpeaking ? 'avatar-talking' : 'hover:scale-105 active:scale-95'
-                    }`}
-                    style={{
-                      boxShadow: isSpeaking
-                        ? '0 0 0 5px rgba(182,23,34,0.12), 0 8px 28px rgba(182,23,34,0.18)'
-                        : '0 4px 20px rgba(26,28,28,0.10)',
-                    }}
-                  >
-                    <img
-                      src="/design/avastar.png"
-                      alt="AI Examiner"
-                      className="w-full h-full object-cover object-top"
-                      draggable={false}
-                    />
-                  </button>
+
+                  {/* Speaking wave bars over avatar */}
+                  {simliConnected && isSpeaking && (
+                    <div className="absolute bottom-3 inset-x-0 flex justify-center items-end gap-[3px]">
+                      {[1, 1.4, 0.8, 1.6, 1, 1.3, 0.7].map((delay, i) => (
+                        <div
+                          key={i}
+                          className="w-[3px] bg-white/80 rounded-full origin-bottom"
+                          style={{
+                            height: '14px',
+                            animation: `avatar-bar ${0.55 * delay}s ease-in-out infinite`,
+                            animationDelay: `${i * 0.07}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-                {/* Speaking indicator label */}
-                <span className={`text-xs font-semibold transition-colors ${isSpeaking ? 'text-primary' : 'text-on-surface-variant'}`}>
-                  {isSpeaking ? 'Speaking…' : 'Tap to replay'}
-                </span>
+
+                {/* Status label */}
+                <div className="mt-2.5 flex items-center gap-1.5">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
+                    style={{ background: simliConnected && isSpeaking ? '#af101a' : simliConnected ? '#4caf50' : '#bdbdbd' }}
+                  />
+                  <span className="text-[11px] text-on-surface-variant font-medium">
+                    {!simliConnected && simliLoading
+                      ? 'Connecting avatar…'
+                      : simliError
+                      ? 'Connection failed'
+                      : !simliConnected
+                      ? 'Avatar offline'
+                      : isSpeaking
+                      ? 'Reading question…'
+                      : 'Ready'}
+                  </span>
+                </div>
               </div>
 
-              {/* Question text below avatar */}
+              {/* Question text */}
               {typeof currentQuestion === 'string' ? (
                 /* Part 1 & 3 — plain question */
                 <div className="text-center space-y-2">
-                  <h1 className="text-[1.9rem] leading-tight font-bold text-on-surface tracking-tight">
+                  <h1 className="text-xl sm:text-[1.9rem] leading-tight font-bold text-on-surface tracking-tight">
                     {currentQuestion}
                   </h1>
                   <p className="text-on-surface-variant text-sm">Answer naturally and clearly.</p>
@@ -506,7 +671,7 @@ export default function StartSpeaking() {
 
             {/* ── 3-Control Bar: Pause/Record | Status pill | Next ── */}
             <div
-              className="flex items-center justify-between rounded-xl px-6 py-4"
+              className="flex items-center justify-between rounded-xl px-3 sm:px-6 py-3 sm:py-4 gap-2"
               style={{
                 background: 'rgba(255,255,255,0.9)',
                 boxShadow: '0 2px 12px rgba(26,28,28,0.08)',
@@ -518,17 +683,17 @@ export default function StartSpeaking() {
                 {isRecording && !isPaused ? (
                   <button
                     onClick={handlePause}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-on-surface active:scale-95 transition-all"
+                    className="flex items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-on-surface active:scale-95 transition-all text-sm"
                     style={{ background: '#f0f0f0', boxShadow: '0 2px 8px rgba(26,28,28,0.10)' }}
                   >
-                    <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>pause</span>
+                    <span className="material-symbols-outlined text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>pause</span>
                     Pause
                   </button>
                 ) : (
                   <button
                     onClick={isRecording && isPaused ? handleResume : handleRecord}
                     disabled={micPermission === 'requesting'}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white active:scale-95 transition-all disabled:opacity-50"
+                    className="flex items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-white active:scale-95 transition-all disabled:opacity-50 text-sm"
                     style={{ background: 'linear-gradient(135deg, #b61722 0%, #da3437 100%)', boxShadow: '0 8px 24px rgba(182,23,34,0.25)' }}
                   >
                     <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -548,7 +713,7 @@ export default function StartSpeaking() {
               <div className="flex items-center justify-center">
                 {isRecording && !isPaused ? (
                   <div
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm text-white select-none"
+                    className="flex items-center gap-1.5 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm text-white select-none"
                     style={{ background: 'linear-gradient(90deg, #b61722 55%, rgba(218,52,55,0.65) 100%)', boxShadow: '0 4px 16px rgba(182,23,34,0.22)' }}
                   >
                     <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>graphic_eq</span>
@@ -565,7 +730,7 @@ export default function StartSpeaking() {
               {/* Right: Next button — dark */}
               <button
                 onClick={handleNextQuestion}
-                className="flex items-center gap-1.5 px-6 py-3 rounded-xl font-bold text-white active:scale-95 transition-all"
+                className="flex items-center gap-1 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-white active:scale-95 transition-all text-sm"
                 style={{ background: '#1a1c1c', boxShadow: '0 4px 14px rgba(26,28,28,0.25)' }}
               >
                 Next

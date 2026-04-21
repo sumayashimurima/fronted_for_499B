@@ -141,7 +141,7 @@ export default function StartWriting() {
     <div className="bg-surface font-body text-on-surface antialiased min-h-screen">
 
       {/* ── Left Sidebar ── */}
-      <aside className="w-64 fixed left-0 top-0 h-screen bg-surface-container-low flex flex-col p-6 z-40">
+      <aside className="w-64 fixed left-0 top-0 h-screen bg-surface-container-low hidden md:flex flex-col p-6 z-40">
         <div className="mb-10">
           <h1 className="text-xl font-bold text-on-surface font-headline">IELTS Master</h1>
           <p className="text-xs text-secondary mt-0.5">Next Test: Oct 24</p>
@@ -174,11 +174,11 @@ export default function StartWriting() {
       </aside>
 
       {/* ── Main Content ── */}
-      <main className="ml-64 min-h-screen">
+      <main className="md:ml-64 min-h-screen pb-20 md:pb-0">
 
         {/* Top Navbar */}
         <header className="bg-surface sticky top-0 z-30">
-          <div className="flex justify-between items-center w-full px-8 py-4">
+          <div className="flex justify-between items-center w-full px-4 sm:px-8 py-4">
             <span className="text-xl font-black tracking-tighter text-primary font-headline">
               AGINTIC AI TUTOR
             </span>
@@ -195,10 +195,10 @@ export default function StartWriting() {
         </header>
 
         {/* Canvas Body */}
-        <div className="max-w-7xl mx-auto px-10 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-10 py-6 sm:py-12">
 
-          <header className="mb-12">
-            <h2 className="text-4xl font-extrabold tracking-tight text-on-surface font-headline mb-2">
+          <header className="mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-on-surface font-headline mb-2">
               IELTS Writing Task 2 Practice
             </h2>
             <p className="text-secondary text-base leading-relaxed">
@@ -206,13 +206,13 @@ export default function StartWriting() {
             </p>
           </header>
 
-          <div className="grid grid-cols-12 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
             {/* ── Left Column: Editor ── */}
-            <div className="col-span-8 space-y-10">
+            <div className="col-span-1 lg:col-span-8 space-y-10">
 
               {/* Prompt Card */}
-              <section className="bg-surface-container-low rounded-xl p-8 relative overflow-hidden">
+              <section className="bg-surface-container-low rounded-xl p-5 sm:p-8 relative overflow-hidden">
                 <div className="flex justify-between items-start mb-6">
                   <span className="hero-gradient text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                     Prompt
@@ -253,7 +253,7 @@ export default function StartWriting() {
                   }}
                 >
                   {/* Toolbar */}
-                  <div className="flex items-center justify-between px-8 py-4 border-b border-surface-container bg-surface-container-lowest rounded-t-xl">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-8 py-4 border-b border-surface-container bg-surface-container-lowest rounded-t-xl">
                     <div>
                       <span className="block text-xs text-secondary mb-0.5">Word Count</span>
                       <span className={`text-xl font-bold tracking-tight ${wordCount >= 250 ? 'text-green-600' : 'text-on-surface'}`}>
@@ -279,7 +279,7 @@ export default function StartWriting() {
                   {/* Textarea */}
                   <textarea
                     ref={textareaRef}
-                    className="grow w-full px-12 py-10 bg-transparent border-none focus:outline-none focus:ring-0 text-on-surface text-lg leading-[1.8] font-body resize-none"
+                    className="grow w-full px-4 sm:px-12 py-6 sm:py-10 bg-transparent border-none focus:outline-none focus:ring-0 text-on-surface text-base sm:text-lg leading-[1.8] font-body resize-none"
                     placeholder="Start typing your essay here..."
                     value={essay}
                     onChange={(e) => setEssay(e.target.value)}
@@ -287,7 +287,7 @@ export default function StartWriting() {
                   />
 
                   {/* Bottom Bar */}
-                  <div className="flex items-center justify-between px-8 py-6 bg-surface-container-lowest rounded-b-xl border-t border-surface-container">
+                  <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 bg-surface-container-lowest rounded-b-xl border-t border-surface-container">
                     
                     <button
                       disabled={!canFinish}
@@ -308,17 +308,17 @@ export default function StartWriting() {
             </div>
 
             {/* ── Right Column: Sticky Panel ── */}
-            <aside className="col-span-4 space-y-8 sticky top-24">
+            <aside className="col-span-1 lg:col-span-4 space-y-8 lg:sticky top-24">
 
               {/* Timer Card */}
-              <div className={`bg-surface-container-lowest rounded-xl p-8 shadow-[0px_12px_32px_rgba(25,28,29,0.05)] border-l-4 ${isUrgent ? 'border-red-500' : 'border-primary'}`}>
+              <div className={`bg-surface-container-lowest rounded-xl p-5 sm:p-8 shadow-[0px_12px_32px_rgba(25,28,29,0.05)] border-l-4 ${isUrgent ? 'border-red-500' : 'border-primary'}`}>
                 <div className="flex items-center gap-3 mb-2">
                   <span className={`material-symbols-outlined text-3xl ${isUrgent ? 'text-red-500' : 'text-primary'}`}>alarm</span>
                   <h4 className="font-bold text-secondary text-xs uppercase tracking-widest">
                     Time Remaining
                   </h4>
                 </div>
-                <div className={`text-6xl font-black tracking-tighter tabular-nums mt-2 ${isUrgent ? 'text-red-500' : 'text-on-surface'} ${isUrgent ? 'animate-pulse' : ''}`}>
+                <div className={`text-4xl sm:text-6xl font-black tracking-tighter tabular-nums mt-2 ${isUrgent ? 'text-red-500' : 'text-on-surface'} ${isUrgent ? 'animate-pulse' : ''}`}>
                   {formatTime(timeLeft)}
                 </div>
                 <div className="mt-6 w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
@@ -347,7 +347,7 @@ export default function StartWriting() {
                     <p className="text-xs font-medium mb-1" style={{ color: 'var(--color-surface-dim)' }}>
                       Overall Band Score
                     </p>
-                    <p className="text-6xl font-black" style={{ color: 'var(--color-surface-container-lowest)' }}>
+                    <p className="text-5xl sm:text-6xl font-black" style={{ color: 'var(--color-surface-container-lowest)' }}>
                       6.5
                     </p>
                     <div className="mt-4 flex items-center gap-2" style={{ color: 'var(--color-primary-fixed)' }}>
@@ -389,7 +389,39 @@ export default function StartWriting() {
         </div>
       </main>
 
-    
+      {/* ── Mobile Bottom Navigation ── */}
+      <nav
+        className="md:hidden fixed bottom-0 w-full z-50 rounded-t-3xl flex justify-around items-center px-4 pt-2 pb-4"
+        style={{
+          background: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(16px)',
+          boxShadow: '0 -10px 30px rgba(0,0,0,0.05)',
+          borderTop: '1px solid rgba(243,243,243,0.8)',
+        }}
+      >
+        <div className="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-xl p-2 transition-transform active:scale-95">
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>edit_note</span>
+          <span className="text-[10px] font-bold uppercase mt-1">Write</span>
+        </div>
+        <div
+          onClick={() => navigate('/writing-history')}
+          className="flex flex-col items-center justify-center text-on-surface-variant p-2 transition-transform active:scale-95 cursor-pointer"
+        >
+          <span className="material-symbols-outlined">history</span>
+          <span className="text-[10px] font-bold uppercase mt-1">History</span>
+        </div>
+        <div
+          onClick={() => navigate('/')}
+          className="flex flex-col items-center justify-center text-on-surface-variant p-2 transition-transform active:scale-95 cursor-pointer"
+        >
+          <span className="material-symbols-outlined">home</span>
+          <span className="text-[10px] font-bold uppercase mt-1">Home</span>
+        </div>
+        <div className="flex flex-col items-center justify-center text-on-surface-variant p-2 transition-transform active:scale-95">
+          <span className="material-symbols-outlined">help_outline</span>
+          <span className="text-[10px] font-bold uppercase mt-1">Help</span>
+        </div>
+      </nav>
 
     </div>
   )
